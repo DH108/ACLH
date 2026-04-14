@@ -660,12 +660,149 @@
         }
 
         /* ─── 响应式 ─── */
-        @media (max-width: 1000px) {
-            .info-panel, .detect-panel { width: 240px; }
+
+        /* 平板横屏 ~1024 */
+        @media (max-width: 1100px) {
+            .img-stage { width: 420px; height: 420px; }
+            .info-panel, .detect-panel { width: 220px; }
             .info-panel.left, .detect-panel.left { left: 20px; }
             .info-panel.right, .detect-panel.right { right: 20px; }
-            .img-stage { width: 400px; height: 400px; }
-            .hero-title { font-size: 42px; }
+            .hero-title { font-size: 48px; }
+        }
+
+        /* 平板竖屏 / 大手机 ~768 */
+        @media (max-width: 768px) {
+            header { padding: 14px 20px; }
+            .logo { font-size: 17px; }
+            .logo span { font-size: 11px; }
+            nav a { font-size: 13px; margin-left: 18px; }
+
+            .hero-tag { font-size: 10px; padding: 5px 14px; }
+            .hero-title { font-size: 36px; }
+            .hero-sub { font-size: 15px; letter-spacing: 2px; }
+
+            /* 图片缩小 */
+            .img-stage { width: 260px; height: 260px; }
+
+            /* 隐藏左右面板，改用底部浮动卡片 */
+            .info-panel { display: none; }
+            .detect-panel { display: none; }
+
+            /* 底部浮动信息卡 */
+            .mobile-panel {
+                display: flex;
+                position: absolute;
+                bottom: 110px; left: 16px; right: 16px;
+                z-index: 30;
+                background: rgba(2, 12, 24, 0.82);
+                backdrop-filter: blur(16px);
+                border: 1px solid rgba(0, 180, 255, 0.18);
+                border-radius: 14px;
+                padding: 14px 16px;
+                pointer-events: none;
+                opacity: 0;
+                transform: translateY(10px);
+                transition: opacity 0.5s, transform 0.5s;
+                flex-direction: column;
+                gap: 6px;
+            }
+            .mobile-panel.visible { opacity: 1; transform: translateY(0); }
+            .mobile-panel .mp-label {
+                font-size: 9px;
+                letter-spacing: 2px;
+                color: var(--accent);
+                text-transform: uppercase;
+            }
+            .mobile-panel .mp-title {
+                font-size: 15px;
+                font-weight: 700;
+                color: #fff;
+            }
+            .mobile-panel .mp-desc {
+                font-size: 12px;
+                color: var(--text-dim);
+                line-height: 1.6;
+            }
+            .mobile-panel .mp-stats {
+                display: flex;
+                gap: 12px;
+                margin-top: 4px;
+                flex-wrap: wrap;
+            }
+            .mobile-panel .mp-stat {
+                font-size: 11px;
+                color: var(--accent);
+                background: rgba(0,212,255,0.08);
+                padding: 3px 10px;
+                border-radius: 20px;
+                border: 1px solid rgba(0,212,255,0.2);
+            }
+            /* 检测区手机卡片绿色主题 */
+            #detectMobilePanel {
+                background: rgba(0, 20, 10, 0.82);
+                border-color: rgba(0, 255, 153, 0.2);
+            }
+            #detectMobilePanel .mp-label { color: var(--accent3); }
+            #detectMobilePanel .mp-stat {
+                color: var(--accent3);
+                background: rgba(0,255,153,0.08);
+                border-color: rgba(0,255,153,0.2);
+            }
+
+            /* 进度点移到右下角 */
+            .progress-dots { right: 12px; gap: 8px; }
+            .detect-dots { right: 12px; gap: 8px; }
+            .dot, .detect-dot { width: 5px; height: 5px; }
+            .dot.active, .detect-dot.active { width: 6px; height: 6px; }
+
+            /* 底部标题缩小 */
+            .stage-title { bottom: 40px; }
+            .stage-title h2 { font-size: 18px; letter-spacing: 2px; }
+            .stage-title p { font-size: 10px; }
+            .detect-stage-title { bottom: 40px; }
+            .detect-stage-title h2 { font-size: 18px; letter-spacing: 2px; }
+            .detect-stage-title p { font-size: 10px; }
+
+            /* 高亮环缩小 */
+            .highlight-ring { width: 140px; height: 140px; }
+
+            /* 章节过渡 */
+            .section-divider { padding: 50px 0 40px; }
+            .section-divider h2 { font-size: 24px; }
+            .section-divider p { font-size: 11px; }
+
+            /* 检测区图片 */
+            .detect-img-stage img {
+                max-width: 90vw;
+                max-height: 50vh;
+            }
+
+            /* 弹幕缩小 */
+            .danmaku-item { font-size: 13px; }
+
+            /* 结尾 */
+            .outro h2 { font-size: 28px; }
+            .outro p { font-size: 14px; padding: 0 20px; }
+        }
+
+        /* 手机竖屏 ~480 */
+        @media (max-width: 480px) {
+            .hero-title { font-size: 28px; }
+            .hero-sub { font-size: 13px; }
+            .hero-tag { font-size: 9px; letter-spacing: 2px; }
+            .img-stage { width: 200px; height: 200px; }
+            .highlight-ring { width: 110px; height: 110px; }
+            .stage-title h2 { font-size: 15px; }
+            .section-divider h2 { font-size: 20px; }
+            .detect-stage-title h2 { font-size: 15px; }
+            .mobile-panel .mp-title { font-size: 13px; }
+            .mobile-panel .mp-desc { font-size: 11px; }
+        }
+
+        /* 超小屏 ~360 */
+        @media (max-width: 360px) {
+            .hero-title { font-size: 24px; }
+            .img-stage { width: 170px; height: 170px; }
         }
     </style>
 </head>
@@ -721,6 +858,13 @@
         <div class="info-panel right" id="panelH"><div class="panel-card"><div class="label">ANODE</div><h3>硬碳负极</h3><p>生物质基硬碳，无序结构提供丰富钠离子储存位，首效高、循环稳定，成本低廉。</p><div class="stat"><div class="stat-row"><span class="stat-key">比容量</span><span class="stat-val">300 mAh/g</span></div><div class="stat-row"><span class="stat-key">首次效率</span><span class="stat-val">≥88%</span></div></div></div></div>
 
         <div class="stage-title" id="stageTitle"><h2 id="stageTitleText">电网级钠电储能方案</h2><p id="stageTitleSub">GRID-SCALE SODIUM-ION ENERGY STORAGE</p></div>
+        <!-- 手机端底部浮动信息卡 -->
+        <div class="mobile-panel" id="mobilePanel">
+            <div class="mp-label" id="mpLabel">SYSTEM OVERVIEW</div>
+            <div class="mp-title" id="mpTitle">电网级钠电储能系统</div>
+            <div class="mp-desc" id="mpDesc">采用凝胶电解质体系，集成热管理与 BMS 智能管控。</div>
+            <div class="mp-stats" id="mpStats"></div>
+        </div>
         <div class="progress-dots" id="progressDots"></div>
     </div>
 </section>
@@ -748,6 +892,13 @@
         <div class="detect-panel right" id="detectPanelB"><div class="detect-card"><div class="label">DATA INTERPRETATION</div><h3>AI 驱动的 GITT 比对</h3><p>基于弛豫行为的 GITT 数据比对，可搭载 AI 学习持续优化模型，精准区分正常老化与异常损坏电芯。</p><div class="stat"><div class="stat-row"><span class="stat-key">算法架构</span><span class="stat-val">深度学习 + 时序分析</span></div><div class="stat-row"><span class="stat-key">预警准确率</span><span class="stat-val">&gt;95%</span></div></div></div></div>
         <div class="detect-panel right" id="detectPanelC"><div class="detect-card"><div class="label">ANALYSIS RESULT</div><h3>多维分析结果输出</h3><p>秒级预判损坏电芯，输出 SOH 、健康度热力图及寿命预测曲线，为运维决策提供量化依据。</p><div class="stat"><div class="stat-row"><span class="stat-key">分析维度</span><span class="stat-val">内阻·容量·极化</span></div><div class="stat-row"><span class="stat-key">报告格式</span><span class="stat-val">图表 + 数据导出</span></div></div></div></div>
         <div class="detect-stage-title" id="detectStageTitle"><h2 id="detectTitleText">智能检测系统概述</h2><p id="detectTitleSub">INTELLIGENT DETECTION — OVERVIEW</p></div>
+        <!-- 手机端检测区浮动卡片 -->
+        <div class="mobile-panel" id="detectMobilePanel">
+            <div class="mp-label" id="dmpLabel">DETECTION SYSTEM</div>
+            <div class="mp-title" id="dmpTitle">智能电池健康检测</div>
+            <div class="mp-desc" id="dmpDesc">聆听电池每一次脉搏，实时捕捉电芯内部细微变化。</div>
+            <div class="mp-stats" id="dmpStats"></div>
+        </div>
         <div class="detect-dots" id="detectDots"></div>
     </div>
 </section>
@@ -764,14 +915,14 @@ gsap.registerPlugin(ScrollTrigger);
 
 // ---------- 电池部分配置 ----------
 const stages = [
-    { mainImg:1, bgImg:null,  bgScale:1,    mainScale:1,    bgOpacity:1,    bgBlur:0,  leftPanel:'panelA', rightPanel:null, titleText:'电网级钠电储能方案',       titleSub:'GRID-SCALE SODIUM-ION ENERGY STORAGE',  highlight:false },
-    { mainImg:2, bgImg:1,    bgScale:1.15,  mainScale:1,    bgOpacity:0.4,  bgBlur:6,  leftPanel:'panelA', rightPanel:'panelB', titleText:'模组化电芯集成结构',     titleSub:'BATTERY PACK — OPEN VIEW',              highlight:false },
-    { mainImg:3, bgImg:2,    bgScale:1.3,   mainScale:1,    bgOpacity:0.3,  bgBlur:10, leftPanel:'panelC', rightPanel:'panelB', titleText:'高比能钠离子电芯',       titleSub:'SINGLE CELL — 18650 FORMAT',             highlight:false },
-    { mainImg:4, bgImg:3,    bgScale:1.45,  mainScale:1.05, bgOpacity:0.25, bgBlur:14, leftPanel:'panelC', rightPanel:'panelD', titleText:'电芯内部卷绕结构',       titleSub:'CELL — WINDING EXPOSED',                 highlight:false },
-    { mainImg:5, bgImg:4,    bgScale:1.6,   mainScale:1.08, bgOpacity:0.2,  bgBlur:18, leftPanel:'panelE', rightPanel:'panelD', titleText:'三层电极展平结构',       titleSub:'ELECTRODE — THREE-LAYER STRUCTURE',      highlight:false, ringPos:'middle' },
-    { mainImg:6, bgImg:5,    bgScale:1,    mainScale:1,    bgOpacity:0.55, bgBlur:4,  leftPanel:'panelE', rightPanel:'panelF', titleText:'层状氧化物正极材料',     titleSub:'CATHODE — LAYERED OXIDE',                highlight:true,  ringPos:'top' },
-    { mainImg:7, bgImg:5,    bgScale:1,    mainScale:1,    bgOpacity:0.55, bgBlur:4,  leftPanel:'panelE', rightPanel:'panelG', titleText:'凝胶电解质隔膜',         titleSub:'SEPARATOR — GEL ELECTROLYTE',            highlight:true,  ringPos:'middle' },
-    { mainImg:8, bgImg:5,    bgScale:1,    mainScale:1,    bgOpacity:0.55, bgBlur:4,  leftPanel:'panelE', rightPanel:'panelH', titleText:'硬碳负极材料',           titleSub:'ANODE — HARD CARBON',                    highlight:true,  ringPos:'bottom' },
+    { mainImg:1, bgImg:null,  bgScale:1,    mainScale:1,    bgOpacity:1,    bgBlur:0,  leftPanel:'panelA', rightPanel:null, titleText:'电网级钠电储能方案',       titleSub:'GRID-SCALE SODIUM-ION ENERGY STORAGE',  highlight:false, mpLabel:'SYSTEM OVERVIEW', mpTitle:'电网级钠电储能系统', mpDesc:'采用凝胶电解质体系，集成热管理与BMS智能管控，实现本征安全与超长循环寿命。', mpStats:['≥160 Wh/kg','>4000次'] },
+    { mainImg:2, bgImg:1,    bgScale:1.15,  mainScale:1,    bgOpacity:0.4,  bgBlur:6,  leftPanel:'panelA', rightPanel:'panelB', titleText:'模组化电芯集成结构',     titleSub:'BATTERY PACK — OPEN VIEW',              highlight:false, mpLabel:'MODULE STRUCTURE', mpTitle:'模组化电芯集成', mpDesc:'标准化18650圆柱型电芯高密度排列，模组间互换性强，支持梯次利用与快速维护。', mpStats:['18650/21700','≥92%成组效率'] },
+    { mainImg:3, bgImg:2,    bgScale:1.3,   mainScale:1,    bgOpacity:0.3,  bgBlur:10, leftPanel:'panelC', rightPanel:'panelB', titleText:'高比能钠离子电芯',       titleSub:'SINGLE CELL — 18650 FORMAT',             highlight:false, mpLabel:'CELL LEVEL', mpTitle:'高比能钠离子电芯', mpDesc:'基于层状氧化物正极与硬碳负极体系，凝胶电解质提供优异离子导电率与宽温域性能。', mpStats:['≥200 Wh/kg','3.2V'] },
+    { mainImg:4, bgImg:3,    bgScale:1.45,  mainScale:1.05, bgOpacity:0.25, bgBlur:14, leftPanel:'panelC', rightPanel:'panelD', titleText:'电芯内部卷绕结构',       titleSub:'CELL — WINDING EXPOSED',                 highlight:false, mpLabel:'WINDING STRUCTURE', mpTitle:'精密卷绕工艺', mpDesc:'正极/隔膜/负极三层精密卷绕，凝胶电解质浸润性好，界面阻抗低。', mpStats:['三层复合','<20mΩ内阻'] },
+    { mainImg:5, bgImg:4,    bgScale:1.6,   mainScale:1.08, bgOpacity:0.2,  bgBlur:18, leftPanel:'panelE', rightPanel:'panelD', titleText:'三层电极展平结构',       titleSub:'ELECTRODE — THREE-LAYER STRUCTURE',      highlight:false, ringPos:'middle', mpLabel:'LAYER OVERVIEW', mpTitle:'三层电极结构', mpDesc:'正极层·凝胶隔膜层·负极层，三者协同构建稳定电化学界面，抑制钠枝晶生长。', mpStats:[] },
+    { mainImg:6, bgImg:5,    bgScale:1,    mainScale:1,    bgOpacity:0.55, bgBlur:4,  leftPanel:'panelE', rightPanel:'panelF', titleText:'层状氧化物正极材料',     titleSub:'CATHODE — LAYERED OXIDE',                highlight:true,  ringPos:'top', mpLabel:'CATHODE', mpTitle:'层状氧化物正极', mpDesc:'Na₀.₈₅[Ni₀.₃₃Fe₀.₁₇Mn₀.₅]O₂层状结构，高比容量，宽电压窗口。', mpStats:['140 mAh/g','3.0–4.0V'] },
+    { mainImg:7, bgImg:5,    bgScale:1,    mainScale:1,    bgOpacity:0.55, bgBlur:4,  leftPanel:'panelE', rightPanel:'panelG', titleText:'凝胶电解质隔膜',         titleSub:'SEPARATOR — GEL ELECTROLYTE',            highlight:true,  ringPos:'middle', mpLabel:'SEPARATOR', mpTitle:'凝胶电解质隔膜', mpDesc:'凝胶骨架嵌入离子液体NaPF₆导电盐，兼具液态高离子导率与固态高安全性。', mpStats:['>3 mS/cm','自熄阻燃'] },
+    { mainImg:8, bgImg:5,    bgScale:1,    mainScale:1,    bgOpacity:0.55, bgBlur:4,  leftPanel:'panelE', rightPanel:'panelH', titleText:'硬碳负极材料',           titleSub:'ANODE — HARD CARBON',                    highlight:true,  ringPos:'bottom', mpLabel:'ANODE', mpTitle:'硬碳负极', mpDesc:'生物质基硬碳，无序结构提供丰富钠离子储存位，首效高、循环稳定。', mpStats:['300 mAh/g','≥88%首效'] },
 ];
 const imgs = Array.from(document.querySelectorAll('.battery-img'));
 const allPanels = ['panelA','panelB','panelC','panelD','panelE','panelF','panelG','panelH'];
@@ -794,6 +945,25 @@ function applyStage(stageIdx, instant = false) {
     const dur = instant ? 0 : 0.7;
     const ease = 'power2.inOut';
     document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === stageIdx));
+
+    // 手机端浮动卡片更新
+    const mpLabel = document.getElementById('mpLabel');
+    const mpTitle = document.getElementById('mpTitle');
+    const mpDesc = document.getElementById('mpDesc');
+    const mpStats = document.getElementById('mpStats');
+    if (mpLabel && s.mpLabel) {
+        mpLabel.textContent = s.mpLabel;
+        mpTitle.textContent = s.mpTitle;
+        mpDesc.textContent = s.mpDesc;
+        mpStats.innerHTML = (s.mpStats || []).map(stat => `<span class="mp-stat">${stat}</span>`).join('');
+        const mp = document.getElementById('mobilePanel');
+        if (mp) {
+            mp.classList.add('visible');
+        }
+    } else {
+        const mp = document.getElementById('mobilePanel');
+        if (mp) mp.classList.remove('visible');
+    }
     allPanels.forEach(id => {
         const isLeft = (id === 'panelA' || id === 'panelC' || id === 'panelE');
         gsap.to('#' + id, { opacity: 0, x: isLeft ? -20 : 20, duration: dur * 0.6, ease });
@@ -875,9 +1045,9 @@ setTimeout(() => applyStage(0, true), 100);
 
 // ---------- 检测系统 ----------
 const detectStages = [
-    { img:1, leftPanel:'detectPanelA', rightPanel:'detectPanelB', titleText:'智能检测系统概述', titleSub:'INTELLIGENT DETECTION — OVERVIEW', danmaku:true },
-    { img:2, leftPanel:null, rightPanel:'detectPanelC', titleText:'多维分析结果输出', titleSub:'ANALYSIS RESULT — MULTI-DIMENSIONAL OUTPUT', danmaku:false },
-    { img:2, leftPanel:null, rightPanel:'detectPanelC', titleText:'多维分析结果输出', titleSub:'ANALYSIS RESULT — MULTI-DIMENSIONAL OUTPUT', danmaku:false }
+    { img:1, leftPanel:'detectPanelA', rightPanel:'detectPanelB', titleText:'智能检测系统概述', titleSub:'INTELLIGENT DETECTION — OVERVIEW', danmaku:true, mpLabel:'DETECTION SYSTEM', mpTitle:'智能电池健康检测', mpDesc:'聆听电池每一次脉搏，实时捕捉电芯内部细微变化，异常萌发之初即预警。', mpStats:['GITT弛豫分析','秒级预判'] },
+    { img:2, leftPanel:null, rightPanel:'detectPanelC', titleText:'多维分析结果输出', titleSub:'ANALYSIS RESULT — MULTI-DIMENSIONAL OUTPUT', danmaku:false, mpLabel:'ANALYSIS RESULT', mpTitle:'多维分析结果输出', mpDesc:'秒级预判损坏电芯，输出SOH热力图及寿命预测曲线。', mpStats:['内阻·容量·极化','图表+数据导出'] },
+    { img:2, leftPanel:null, rightPanel:'detectPanelC', titleText:'多维分析结果输出', titleSub:'ANALYSIS RESULT — MULTI-DIMENSIONAL OUTPUT', danmaku:false, mpLabel:'ANALYSIS RESULT', mpTitle:'多维分析结果输出', mpDesc:'秒级预判损坏电芯，输出SOH热力图及寿命预测曲线。', mpStats:['内阻·容量·极化','图表+数据导出'] }
 ];
 const detectImgs = [document.getElementById('detectImg1'), document.getElementById('detectImg2')];
 const detectPanels = ['detectPanelA','detectPanelB','detectPanelC'];
@@ -907,30 +1077,33 @@ const danmakuMessages = [
 ];
 const trackEls = [];
 const NUM_TRACKS = 7;
-const TRACK_HEIGHT = 55;
+const isMobile = window.innerWidth <= 768;
+const TRACK_HEIGHT = isMobile ? 40 : 55;
+const NUM_MOBILE_TRACKS = 5;
+const ACTUAL_TRACKS = isMobile ? NUM_MOBILE_TRACKS : NUM_TRACKS;
 const danmakuTrackDiv = document.getElementById('danmakuTrack');
-for (let i = 0; i < NUM_TRACKS; i++) {
+for (let i = 0; i < ACTUAL_TRACKS; i++) {
     const track = document.createElement('div');
-    track.style.cssText = `position:absolute; top:${20 + i * TRACK_HEIGHT}px; left:0; width:100%; height:${TRACK_HEIGHT}px; overflow:hidden; pointer-events:none;`;
+    track.style.cssText = `position:absolute; top:${15 + i * TRACK_HEIGHT}px; left:0; width:100%; height:${TRACK_HEIGHT}px; overflow:hidden; pointer-events:none;`;
     danmakuTrackDiv.appendChild(track);
     trackEls.push(track);
 }
 let danmakuInterval = null, danmakuActive = false;
 function fireOneDanmaku(msg) {
-    const trackIdx = Math.floor(Math.random() * NUM_TRACKS);
+    const trackIdx = Math.floor(Math.random() * ACTUAL_TRACKS);
     const el = document.createElement('div');
     el.className = `danmaku-item ${msg.colorClass}`;
     el.textContent = msg.text;
-    el.style.fontSize = '16px';
-    el.style.top = (8 + Math.random() * (TRACK_HEIGHT - 20)) + 'px';
-    const textWidth = el.scrollWidth || 200;
+    el.style.fontSize = isMobile ? '13px' : '16px';
+    el.style.top = (6 + Math.random() * (TRACK_HEIGHT - 18)) + 'px';
+    const textWidth = el.scrollWidth || 160;
     const startX = window.innerWidth;
     const endX = -(textWidth + 20);
-    const duration = 6 + Math.random() * 4;
+    const duration = isMobile ? (5 + Math.random() * 3) : (6 + Math.random() * 4);
     trackEls[trackIdx].appendChild(el);
     gsap.fromTo(el, { opacity:0, x:startX }, { opacity:[0,0.85,0.85,0], x:endX, duration, ease:'none', onComplete:()=>el.remove() });
 }
-function startDanmaku() { if (danmakuActive) return; danmakuActive=true; danmakuMessages.forEach((m,i)=>setTimeout(()=>fireOneDanmaku(m), i*150)); danmakuInterval = setInterval(()=>{ for(let k=0;k<2+Math.random()*2;k++) fireOneDanmaku(danmakuMessages[Math.floor(Math.random()*danmakuMessages.length)]); }, 1300); }
+function startDanmaku() { if (danmakuActive) return; danmakuActive=true; danmakuMessages.forEach((m,i)=>setTimeout(()=>fireOneDanmaku(m), i*150)); const interval = isMobile ? 1600 : 1300; const count = isMobile ? 1 : 2; danmakuInterval = setInterval(()=>{ for(let k=0;k<count+Math.floor(Math.random()*2);k++) fireOneDanmaku(danmakuMessages[Math.floor(Math.random()*danmakuMessages.length)]); }, interval); }
 function stopDanmaku() { danmakuActive=false; clearInterval(danmakuInterval); danmakuInterval=null; trackEls.forEach(t=>{ while(t.firstChild) t.removeChild(t.firstChild); }); }
 
 function applyDetectStage(stageIdx, instant=false) {
@@ -939,6 +1112,23 @@ function applyDetectStage(stageIdx, instant=false) {
     const s = detectStages[stageIdx];
     const dur = instant ? 0 : 0.7;
     document.querySelectorAll('.detect-dot').forEach((d,i)=>d.classList.toggle('active', i===stageIdx));
+
+    // 手机端浮动卡片更新
+    const dmpLabel = document.getElementById('dmpLabel');
+    const dmpTitle = document.getElementById('dmpTitle');
+    const dmpDesc = document.getElementById('dmpDesc');
+    const dmpStats = document.getElementById('dmpStats');
+    if (dmpLabel && s.mpLabel) {
+        dmpLabel.textContent = s.mpLabel;
+        dmpTitle.textContent = s.mpTitle;
+        dmpDesc.textContent = s.mpDesc;
+        dmpStats.innerHTML = (s.mpStats || []).map(stat => `<span class="mp-stat">${stat}</span>`).join('');
+        const dmp = document.getElementById('detectMobilePanel');
+        if (dmp) dmp.classList.add('visible');
+    } else {
+        const dmp = document.getElementById('detectMobilePanel');
+        if (dmp) dmp.classList.remove('visible');
+    }
     detectPanels.forEach(id => { const isLeft = id === 'detectPanelA'; gsap.to('#'+id, { opacity:0, x:isLeft?-20:20, duration:dur*0.5, ease:'power2.inOut' }); });
     if (s.leftPanel) gsap.fromTo('#'+s.leftPanel, { opacity:0, x:-30 }, { opacity:1, x:0, duration:dur, delay:dur*0.3, ease:'power2.out' });
     if (s.rightPanel) gsap.fromTo('#'+s.rightPanel, { opacity:0, x:30 }, { opacity:1, x:0, duration:dur, delay:dur*0.3, ease:'power2.out' });
