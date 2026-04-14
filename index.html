@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>安储绿航 · 凝胶体系钠离子电池储能方案</title>
+    <script src="js/gsap.min.js"></script>
+    <script src="js/ScrollTrigger.min.js"></script>
+    <style>
+        *, *::before, *::after {
+            margin: 0; padding: 0; box-sizing: border-box;
+        }
+
+        :root {
+            --accent: #00d4ff;
+            --accent2: #0066cc;
+            --accent3: #00ff99;
+            --bg: #020c18;
+            --card-bg: rgba(0, 180, 255, 0.06);
+            --card-border: rgba(0, 180, 255, 0.18);
+            --text-dim: rgba(200, 230, 255, 0.65);
+        }
+
+        html {
+            scroll-behavior: auto;
+            background: var(--bg);
+            color: #fff;
+            font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
+            overflow-x: hidden;
+        }
+
+        body {
+            overflow-x: hidden;
+            background: var(--bg);
+        }
+
+        /* ─── 导航栏 ─── */
+        header {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            padding: 18px 56px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(2, 12, 24, 0.75);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 180, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, #00d4ff, #00ff99);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo span {
+            font-weight: 300;
+            font-size: 13px;
+            color: var(--text-dim);
+            display: block;
+            letter-spacing: 1px;
+            background: none;
+            -webkit-text-fill-color: var(--text-dim);
+        }
+
+        nav a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 14px;
+            margin-left: 32px;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: var(--accent); }
+
+        /* ─── Hero Section ─── */
+        .hero {
+            width: 100%; height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% 60%, rgba(0, 100, 200, 0.18) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 30% at 30% 40%, rgba(0, 200, 150, 0.08) 0%, transparent 60%),
+                linear-gradient(180deg, #020c18 0%, #041428 100%);
+        }
+
+        .hero-grid {
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(0,180,255,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,180,255,0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 40%, transparent 100%);
+        }
+
+        .hero-content {
+            position: relative; z-index: 2;
+            text-align: center;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            padding: 6px 18px;
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            border-radius: 20px;
+            font-size: 12px;
+            letter-spacing: 3px;
+            color: var(--accent);
+            margin-bottom: 28px;
+            background: rgba(0, 212, 255, 0.06);
+        }
+
+        .hero-title {
+            font-size: 58px;
+            font-weight: 800;
+            line-height: 1.15;
+            background: linear-gradient(135deg, #ffffff 0%, #a8d8ff 50%, #00d4ff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .hero-sub {
+            font-size: 20px;
+            color: var(--text-dim);
+            letter-spacing: 4px;
+            margin-bottom: 60px;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px; left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-dim);
+            font-size: 12px;
+            letter-spacing: 2px;
+            animation: fadeUpDown 2.2s ease-in-out infinite;
+        }
+
+        .scroll-hint::after {
+            content: '';
+            width: 1px; height: 50px;
+            background: linear-gradient(to bottom, rgba(0,212,255,0.6), transparent);
+            display: block;
+        }
+
+        @keyframes fadeUpDown {
+            0%, 100% { opacity: 0.5; transform: translateX(-50%) translateY(0); }
+            50% { opacity: 1; transform: translateX(-50%) translateY(8px); }
+        }
+
+        /* ─── 主展示区 ─── */
+        .battery-section {
+            position: relative;
+            width: 100%;
+            background: var(--bg);
+        }
+
+        .battery-sticky {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .battery-bg {
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,80,160,0.25) 0%, transparent 70%),
+                        linear-gradient(180deg, #020c18, #041428);
+            z-index: 0;
+        }
+
+        .img-stage {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 580px;
+            height: 580px;
+            z-index: 10;
+        }
+
+        .battery-img {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            filter: blur(0px);
+            transform: scale(1);
+            will-change: transform, opacity, filter;
+            transition: none;
+        }
+
+        .battery-img.img-1 { opacity: 1; }
+
+        .img-glow {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px; height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0,180,255,0.12) 0%, transparent 70%);
+            z-index: 9;
+            pointer-events: none;
+        }
+
+        /* ─── 文字卡片 ─── */
+        .info-panel {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 280px;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .info-panel.left { left: 60px; }
+        .info-panel.right { right: 60px; }
+
+        .panel-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px 22px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 0 40px rgba(0, 180, 255, 0.06);
+        }
+
+        .panel-card .label {
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: var(--accent);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .panel-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .panel-card p {
+            font-size: 13px;
+            color: var(--text-dim);
+            line-height: 1.8;
+        }
+
+        .panel-card .stat {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(0,180,255,0.12);
+        }
+
+        .panel-card .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .panel-card .stat-key {
+            font-size: 11px;
+            color: var(--text-dim);
+        }
+
+        .panel-card .stat-val {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        /* 进度指示器 */
+        .progress-dots {
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 30;
+        }
+
+        .dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: rgba(0,180,255,0.25);
+            border: 1px solid rgba(0,180,255,0.4);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background: var(--accent);
+            box-shadow: 0 0 10px rgba(0,212,255,0.6);
+            width: 8px; height: 8px;
+        }
+
+        /* 底部标题条 */
+        .stage-title {
+            position: absolute;
+            bottom: 60px; left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 20;
+            opacity: 0;
+        }
+
+        .stage-title h2 {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            background: linear-gradient(90deg, #a8d8ff, #00d4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .stage-title p {
+            font-size: 12px;
+            color: var(--text-dim);
+            letter-spacing: 3px;
+            margin-top: 6px;
+        }
+
+        /* 高亮框 */
+        .highlight-ring {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            width: 220px; height: 220px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 40px rgba(0,212,255,0.5), inset 0 0 30px rgba(0,212,255,0.12);
+            opacity: 0;
+            z-index: 25;
+            pointer-events: none;
+            transition: top 0.65s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        .highlight-ring.pos-top    { top: 28%; }
+        .highlight-ring.pos-middle { top: 50%; }
+        .highlight-ring.pos-bottom { top: 72%; }
+
+        /* ─── 章节过渡 ─── */
+        .section-divider {
+            width: 100%;
+            padding: 80px 0 60px;
+            background: linear-gradient(180deg, #011a0e 0%, #020c18 100%);
+            text-align: center;
+            position: relative;
+        }
+
+        .section-divider .divider-label {
+            font-size: 11px;
+            letter-spacing: 4px;
+            color: #00ff99;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            opacity: 0.7;
+        }
+
+        .section-divider h2 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            background: linear-gradient(90deg, #00ff99, #00d4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .section-divider p {
+            margin-top: 10px;
+            font-size: 13px;
+            color: rgba(200, 230, 210, 0.5);
+            letter-spacing: 3px;
+        }
+
+        /* ─── 检测系统区域 ─── */
+        .detect-section {
+            position: relative;
+            width: 100%;
+            background: linear-gradient(180deg, #041428 0%, #020c18 100%);
+        }
+
+        .detect-sticky {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .detect-bg {
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 60% 50% at 50% 50%, rgba(0, 80, 40, 0.3) 0%, transparent 70%),
+                linear-gradient(180deg, #020c18 0%, #011a0e 50%, #020c18 100%);
+            z-index: 0;
+        }
+
+        .detect-grid {
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(0,255,153,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,255,153,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 1;
+        }
+
+        .detect-img-stage {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            width: auto;
+            height: auto;
+        }
+
+        .detect-img-stage img {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 680px;
+            max-height: 80vh;
+            width: auto; height: auto;
+            object-fit: contain;
+            opacity: 0;
+            transition: none;
+            will-change: opacity;
+        }
+
+        /* 弹幕系统 */
+        .danmaku-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            overflow: hidden;
+            z-index: 30;
+            pointer-events: none;
+        }
+
+        .danmaku-track {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .danmaku-item {
+            position: absolute;
+            white-space: nowrap;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            text-shadow: 0 0 12px rgba(0,255,153,0.9), 0 0 30px rgba(0,255,153,0.4);
+            letter-spacing: 1px;
+            opacity: 0;
+            left: 100%;
+            will-change: transform, opacity;
+        }
+
+        .dm-c1 { color: #00ff99; text-shadow: 0 0 12px rgba(0,255,153,0.9), 0 0 30px rgba(0,255,153,0.4); }
+        .dm-c2 { color: #00d4ff; text-shadow: 0 0 12px rgba(0,212,255,0.9), 0 0 30px rgba(0,212,255,0.4); }
+        .dm-c3 { color: #ffee00; text-shadow: 0 0 12px rgba(255,238,0,0.9), 0 0 30px rgba(255,238,0,0.4); }
+        .dm-c4 { color: #ff7700; text-shadow: 0 0 12px rgba(255,119,0,0.9), 0 0 30px rgba(255,119,0,0.4); }
+        .dm-c5 { color: #ff4488; text-shadow: 0 0 12px rgba(255,68,136,0.9), 0 0 30px rgba(255,68,136,0.4); }
+
+        /* 检测区面板 */
+        .detect-panel {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            z-index: 25;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .detect-panel.left  { left: 60px; }
+        .detect-panel.right { right: 60px; }
+
+        .detect-card {
+            background: rgba(0, 30, 15, 0.7);
+            border: 1px solid rgba(0, 255, 153, 0.2);
+            border-radius: 16px;
+            padding: 24px 22px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 0 40px rgba(0, 255, 153, 0.06);
+        }
+
+        .detect-card .label {
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: #00ff99;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .detect-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .detect-card p {
+            font-size: 13px;
+            color: rgba(200, 230, 210, 0.75);
+            line-height: 1.8;
+        }
+
+        .detect-card .stat {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(0,255,153,0.12);
+        }
+
+        .detect-card .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .detect-card .stat-key {
+            font-size: 11px;
+            color: rgba(200, 230, 210, 0.6);
+        }
+
+        .detect-card .stat-val {
+            font-size: 14px;
+            font-weight: 600;
+            color: #00ff99;
+        }
+
+        .detect-stage-title {
+            position: absolute;
+            bottom: 60px; left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 25;
+            opacity: 0;
+        }
+
+        .detect-stage-title h2 {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            background: linear-gradient(90deg, #a8ffcc, #00ff99);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .detect-stage-title p {
+            font-size: 12px;
+            color: rgba(200, 230, 210, 0.6);
+            letter-spacing: 3px;
+            margin-top: 6px;
+        }
+
+        .detect-dots {
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 30;
+        }
+
+        .detect-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: rgba(0,255,153,0.25);
+            border: 1px solid rgba(0,255,153,0.4);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .detect-dot.active {
+            background: #00ff99;
+            box-shadow: 0 0 10px rgba(0,255,153,0.6);
+            width: 8px; height: 8px;
+        }
+
+        /* ─── 结尾区 ─── */
+        .outro {
+            width: 100%; height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg);
+            text-align: center;
+            gap: 20px;
+        }
+
+        .outro h2 {
+            font-size: 42px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #00d4ff, #00ff99);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .outro p {
+            font-size: 16px;
+            color: var(--text-dim);
+            max-width: 600px;
+            line-height: 1.8;
+        }
+
+        .outro-btn {
+            margin-top: 20px;
+            padding: 14px 40px;
+            border: 1px solid var(--accent);
+            border-radius: 30px;
+            background: rgba(0,212,255,0.08);
+            color: var(--accent);
+            font-size: 14px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .outro-btn:hover {
+            background: rgba(0,212,255,0.2);
+            box-shadow: 0 0 20px rgba(0,212,255,0.3);
+        }
+
+        /* ─── 响应式 ─── */
+        @media (max-width: 1000px) {
+            .info-panel, .detect-panel { width: 240px; }
+            .info-panel.left, .detect-panel.left { left: 20px; }
+            .info-panel.right, .detect-panel.right { right: 20px; }
+            .img-stage { width: 400px; height: 400px; }
+            .hero-title { font-size: 42px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        安储绿航
+        <span>Safe Sodium Battery</span>
+    </div>
+    <nav>
+        <a href="#intro">项目介绍</a>
+        <a href="#about">关于我们</a>
+    </nav>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+        <div class="hero-tag">SODIUM-ION · GEL ELECTROLYTE · GRID-SCALE</div>
+        <h1 class="hero-title">凝胶体系<br>钠离子储能方案</h1>
+        <p class="hero-sub">电网级 · 长寿命 · 本征安全</p>
+    </div>
+    <div class="scroll-hint">SCROLL</div>
+</section>
+
+<!-- 主展示区：电池 -->
+<section class="battery-section" id="batterySection">
+    <div class="battery-sticky" id="batterySticky">
+        <div class="battery-bg"></div>
+        <div class="img-glow"></div>
+        <div class="img-stage" id="imgStage">
+            <img class="battery-img img-1" src="材料/1_电池包完整.png" alt="电池包完整" data-idx="1">
+            <img class="battery-img img-2" src="材料/2_电池包开盖电芯组.png" alt="电池包开盖电芯组" data-idx="2">
+            <img class="battery-img img-3" src="材料/3_聚焦单颗18650.png" alt="聚焦单颗18650" data-idx="3">
+            <img class="battery-img img-4" src="材料/4_18650打开卷绕.png" alt="18650打开卷绕" data-idx="4">
+            <img class="battery-img img-5" src="材料/5_卷绕展平三层.png" alt="卷绕展平三层" data-idx="5">
+            <img class="battery-img img-6" src="材料/6_正极特写.png" alt="正极特写" data-idx="6">
+            <img class="battery-img img-7" src="材料/8_负极特写.png" alt="隔膜特写" data-idx="7">
+            <img class="battery-img img-8" src="材料/7_隔膜特写.png" alt="负极特写" data-idx="8">
+        </div>
+        <div class="highlight-ring pos-top" id="highlightRing"></div>
+
+        <div class="info-panel left" id="panelA"><div class="panel-card"><div class="label">SYSTEM OVERVIEW</div><h3>电网级钠电储能系统</h3><p>采用凝胶电解质体系，集成热管理与 BMS 智能管控，实现本征安全与超长循环寿命。</p><div class="stat"><div class="stat-row"><span class="stat-key">系统能量密度</span><span class="stat-val">≥160 Wh/kg</span></div><div class="stat-row"><span class="stat-key">循环寿命</span><span class="stat-val">&gt;4000 次</span></div></div></div></div>
+        <div class="info-panel right" id="panelB"><div class="panel-card"><div class="label">MODULE STRUCTURE</div><h3>模组化电芯集成</h3><p>标准化 18650 圆柱型电芯高密度排列，模组间互换性强，支持梯次利用与快速维护。</p><div class="stat"><div class="stat-row"><span class="stat-key">电芯规格</span><span class="stat-val">18650 / 21700</span></div><div class="stat-row"><span class="stat-key">成组效率</span><span class="stat-val">≥92%</span></div></div></div></div>
+        <div class="info-panel left" id="panelC"><div class="panel-card"><div class="label">CELL LEVEL</div><h3>高比能钠离子电芯</h3><p>基于层状氧化物正极与硬碳负极体系，凝胶电解质提供优异离子导电率与宽温域性能。</p><div class="stat"><div class="stat-row"><span class="stat-key">电芯比能量</span><span class="stat-val">≥200 Wh/kg</span></div><div class="stat-row"><span class="stat-key">额定电压</span><span class="stat-val">3.2 V</span></div></div></div></div>
+        <div class="info-panel right" id="panelD"><div class="panel-card"><div class="label">WINDING STRUCTURE</div><h3>精密卷绕工艺</h3><p>正极 / 隔膜 / 负极三层精密卷绕，凝胶电解质浸润性好，界面阻抗低，安全性卓越。</p><div class="stat"><div class="stat-row"><span class="stat-key">卷绕层数</span><span class="stat-val">三层复合</span></div><div class="stat-row"><span class="stat-key">内阻</span><span class="stat-val">&lt;20 mΩ</span></div></div></div></div>
+        <div class="info-panel left" id="panelE"><div class="panel-card"><div class="label">LAYER OVERVIEW</div><h3>三层电极结构</h3><p>正极层 · 凝胶隔膜层 · 负极层，三者协同构建稳定电化学界面，抑制钠枝晶生长。</p></div></div>
+        <div class="info-panel right" id="panelF"><div class="panel-card"><div class="label">CATHODE</div><h3>层状氧化物正极</h3><p>Na₀.₈₅[Ni₀.₃₃Fe₀.₁₇Mn₀.₅]O₂ 层状结构，高比容量，宽电压窗口，稳定的钠离子脱嵌通道。</p><div class="stat"><div class="stat-row"><span class="stat-key">比容量</span><span class="stat-val">140 mAh/g</span></div><div class="stat-row"><span class="stat-key">电压平台</span><span class="stat-val">最高可达3.0–4.0 V</span></div></div></div></div>
+        <div class="info-panel right" id="panelG"><div class="panel-card"><div class="label">SEPARATOR / GEL ELECTROLYTE</div><h3>凝胶电解质隔膜</h3><p>凝胶骨架|离子液体嵌入 NaPF₆ 导电盐，兼具液态电解质高离子导率与固态体系高安全性。</p><div class="stat"><div class="stat-row"><span class="stat-key">离子电导率</span><span class="stat-val">&gt;3 mS/cm</span></div><div class="stat-row"><span class="stat-key">热稳定性</span><span class="stat-val">自熄阻燃</span></div></div></div></div>
+        <div class="info-panel right" id="panelH"><div class="panel-card"><div class="label">ANODE</div><h3>硬碳负极</h3><p>生物质基硬碳，无序结构提供丰富钠离子储存位，首效高、循环稳定，成本低廉。</p><div class="stat"><div class="stat-row"><span class="stat-key">比容量</span><span class="stat-val">300 mAh/g</span></div><div class="stat-row"><span class="stat-key">首次效率</span><span class="stat-val">≥88%</span></div></div></div></div>
+
+        <div class="stage-title" id="stageTitle"><h2 id="stageTitleText">电网级钠电储能方案</h2><p id="stageTitleSub">GRID-SCALE SODIUM-ION ENERGY STORAGE</p></div>
+        <div class="progress-dots" id="progressDots"></div>
+    </div>
+</section>
+
+<!-- 章节过渡 -->
+<div class="section-divider" id="intro">
+    <div class="divider-label">INTELLIGENT DETECTION SYSTEM</div>
+    <h2>配套智能检测系统</h2>
+    <p>AI · GITT · REAL-TIME MONITORING</p>
+</div>
+
+<!-- 配套智能检测系统 -->
+<section class="detect-section" id="detectSection">
+    <div class="detect-sticky" id="detectSticky">
+        <div class="detect-bg"></div>
+        <div class="detect-grid"></div>
+        <div class="detect-img-stage" id="detectImgStage">
+            <img id="detectImg1" src="材料/配套智能检测系统.png" alt="配套智能检测系统">
+            <img id="detectImg2" src="材料/分析结果.png" alt="分析结果">
+        </div>
+        <div class="danmaku-container" id="danmakuContainer">
+            <div class="danmaku-track" id="danmakuTrack"></div>
+        </div>
+        <div class="detect-panel left" id="detectPanelA"><div class="detect-card"><div class="label">DETECTION SYSTEM</div><h3>智能电池健康检测</h3><p>聆听电池每一次脉搏，通过高精度弛豫数据实时捕捉电芯内部细微变化，在异常萌发之初即发出预警。</p><div class="stat"><div class="stat-row"><span class="stat-key">检测方法</span><span class="stat-val">GITT 弛豫分析</span></div><div class="stat-row"><span class="stat-key">响应速度</span><span class="stat-val">秒级预判</span></div></div></div></div>
+        <div class="detect-panel right" id="detectPanelB"><div class="detect-card"><div class="label">DATA INTERPRETATION</div><h3>AI 驱动的 GITT 比对</h3><p>基于弛豫行为的 GITT 数据比对，可搭载 AI 学习持续优化模型，精准区分正常老化与异常损坏电芯。</p><div class="stat"><div class="stat-row"><span class="stat-key">算法架构</span><span class="stat-val">深度学习 + 时序分析</span></div><div class="stat-row"><span class="stat-key">预警准确率</span><span class="stat-val">&gt;95%</span></div></div></div></div>
+        <div class="detect-panel right" id="detectPanelC"><div class="detect-card"><div class="label">ANALYSIS RESULT</div><h3>多维分析结果输出</h3><p>秒级预判损坏电芯，输出 SOH 、健康度热力图及寿命预测曲线，为运维决策提供量化依据。</p><div class="stat"><div class="stat-row"><span class="stat-key">分析维度</span><span class="stat-val">内阻·容量·极化</span></div><div class="stat-row"><span class="stat-key">报告格式</span><span class="stat-val">图表 + 数据导出</span></div></div></div></div>
+        <div class="detect-stage-title" id="detectStageTitle"><h2 id="detectTitleText">智能检测系统概述</h2><p id="detectTitleSub">INTELLIGENT DETECTION — OVERVIEW</p></div>
+        <div class="detect-dots" id="detectDots"></div>
+    </div>
+</section>
+
+<!-- 结尾 -->
+<section class="outro" id="about">
+    <h2>从钠离子到绿色电网</h2>
+    <p>安储绿航以凝胶电解质为核心技术壁垒，打造本征安全、长寿命、低成本的电网级储能解决方案，助力新型电力系统建设。</p>
+    <button class="outro-btn">了解更多方案</button>
+</section>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// ---------- 电池部分配置 ----------
+const stages = [
+    { mainImg:1, bgImg:null,  bgScale:1,    mainScale:1,    bgOpacity:1,    bgBlur:0,  leftPanel:'panelA', rightPanel:null, titleText:'电网级钠电储能方案',       titleSub:'GRID-SCALE SODIUM-ION ENERGY STORAGE',  highlight:false },
+    { mainImg:2, bgImg:1,    bgScale:1.15,  mainScale:1,    bgOpacity:0.4,  bgBlur:6,  leftPanel:'panelA', rightPanel:'panelB', titleText:'模组化电芯集成结构',     titleSub:'BATTERY PACK — OPEN VIEW',              highlight:false },
+    { mainImg:3, bgImg:2,    bgScale:1.3,   mainScale:1,    bgOpacity:0.3,  bgBlur:10, leftPanel:'panelC', rightPanel:'panelB', titleText:'高比能钠离子电芯',       titleSub:'SINGLE CELL — 18650 FORMAT',             highlight:false },
+    { mainImg:4, bgImg:3,    bgScale:1.45,  mainScale:1.05, bgOpacity:0.25, bgBlur:14, leftPanel:'panelC', rightPanel:'panelD', titleText:'电芯内部卷绕结构',       titleSub:'CELL — WINDING EXPOSED',                 highlight:false },
+    { mainImg:5, bgImg:4,    bgScale:1.6,   mainScale:1.08, bgOpacity:0.2,  bgBlur:18, leftPanel:'panelE', rightPanel:'panelD', titleText:'三层电极展平结构',       titleSub:'ELECTRODE — THREE-LAYER STRUCTURE',      highlight:false, ringPos:'middle' },
+    { mainImg:6, bgImg:5,    bgScale:1,    mainScale:1,    bgOpacity:0.55, bgBlur:4,  leftPanel:'panelE', rightPanel:'panelF', titleText:'层状氧化物正极材料',     titleSub:'CATHODE — LAYERED OXIDE',                highlight:true,  ringPos:'top' },
+    { mainImg:7, bgImg:5,    bgScale:1,    mainScale:1,    bgOpacity:0.55, bgBlur:4,  leftPanel:'panelE', rightPanel:'panelG', titleText:'凝胶电解质隔膜',         titleSub:'SEPARATOR — GEL ELECTROLYTE',            highlight:true,  ringPos:'middle' },
+    { mainImg:8, bgImg:5,    bgScale:1,    mainScale:1,    bgOpacity:0.55, bgBlur:4,  leftPanel:'panelE', rightPanel:'panelH', titleText:'硬碳负极材料',           titleSub:'ANODE — HARD CARBON',                    highlight:true,  ringPos:'bottom' },
+];
+const imgs = Array.from(document.querySelectorAll('.battery-img'));
+const allPanels = ['panelA','panelB','panelC','panelD','panelE','panelF','panelG','panelH'];
+const stageTitle = document.getElementById('stageTitle');
+const stageTitleText = document.getElementById('stageTitleText');
+const stageTitleSub = document.getElementById('stageTitleSub');
+const highlightRing = document.getElementById('highlightRing');
+let currentStage = -1;
+
+gsap.set('.battery-img', { opacity: 0 });
+gsap.set('.img-1', { opacity: 1, scale: 1 });
+gsap.set(allPanels.map(id => '#' + id), { opacity: 0, x: 0 });
+gsap.set('#stageTitle', { opacity: 0, y: 20 });
+gsap.set('#highlightRing', { opacity: 0, scale: 0.8 });
+
+function applyStage(stageIdx, instant = false) {
+    if (stageIdx === currentStage) return;
+    currentStage = stageIdx;
+    const s = stages[stageIdx];
+    const dur = instant ? 0 : 0.7;
+    const ease = 'power2.inOut';
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === stageIdx));
+    allPanels.forEach(id => {
+        const isLeft = (id === 'panelA' || id === 'panelC' || id === 'panelE');
+        gsap.to('#' + id, { opacity: 0, x: isLeft ? -20 : 20, duration: dur * 0.6, ease });
+    });
+    if (s.leftPanel) gsap.fromTo('#' + s.leftPanel, { opacity:0, x:-30 }, { opacity:1, x:0, duration:dur, delay:dur*0.3, ease });
+    if (s.rightPanel) gsap.fromTo('#' + s.rightPanel, { opacity:0, x:30 }, { opacity:1, x:0, duration:dur, delay:dur*0.3, ease });
+    gsap.to('#stageTitle', { opacity:0, y:10, duration:dur*0.4, ease, onComplete:() => {
+        stageTitleText.textContent = s.titleText;
+        stageTitleSub.textContent = s.titleSub;
+        gsap.to('#stageTitle', { opacity:1, y:0, duration:dur*0.5, ease });
+    }});
+    if (s.highlight) {
+        highlightRing.classList.remove('pos-top','pos-middle','pos-bottom');
+        if (s.ringPos) highlightRing.classList.add('pos-' + s.ringPos);
+        gsap.to('#highlightRing', { opacity:1, scale:1, duration:dur, ease });
+    } else {
+        gsap.to('#highlightRing', { opacity:0, scale:0.85, duration:dur*0.5, ease });
+    }
+    const is678 = (s.mainImg === 6 || s.mainImg === 7 || s.mainImg === 8);
+    if (is678) {
+        const img5 = imgs[4];
+        gsap.set(img5, { zIndex: 2 });
+        gsap.to(img5, { opacity: s.bgOpacity, scale:1, x:0, y:0, filter:`blur(${s.bgBlur}px)`, duration:dur, ease });
+        const mainEl = imgs[s.mainImg - 1];
+        gsap.set(mainEl, { zIndex: 8 });
+        gsap.to(mainEl, { opacity:1, scale:s.mainScale, filter:'blur(0px)', duration:dur, ease });
+        imgs.forEach((img, i) => { if (i+1 !== s.mainImg && i+1 !== 5) gsap.to(img, { opacity:0, duration:dur*0.5, ease }); });
+    } else {
+        const mainEl = imgs[s.mainImg - 1];
+        gsap.set(mainEl, { zIndex: 5 });
+        gsap.to(mainEl, { opacity:1, scale:s.mainScale, filter:'blur(0px)', duration:dur, ease });
+        if (s.bgImg) {
+            const bgEl = imgs[s.bgImg - 1];
+            gsap.set(bgEl, { zIndex: 1 });
+            gsap.to(bgEl, { opacity:s.bgOpacity, scale:s.bgScale, filter:`blur(${s.bgBlur}px)`, duration:dur, ease });
+        }
+        imgs.forEach((img, i) => { if (i+1 !== s.mainImg && i+1 !== s.bgImg) gsap.to(img, { opacity:0, duration:dur*0.5, ease }); });
+    }
+}
+
+// 生成进度点
+const dotsContainer = document.getElementById('progressDots');
+for (let i = 0; i < stages.length; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.dataset.stage = i;
+    dotsContainer.appendChild(dot);
+}
+document.querySelectorAll('.dot').forEach((dot, idx) => {
+    dot.addEventListener('click', () => {
+        if (batteryTrigger) {
+            const start = batteryTrigger.start;
+            const end = batteryTrigger.end;
+            const scrollPos = start + (idx / stages.length) * (end - start);
+            window.scrollTo({ top: scrollPos, behavior: 'smooth' });
+        }
+    });
+});
+
+let batteryTrigger = ScrollTrigger.create({
+    trigger: '#batterySection',
+    start: 'top top',
+    end: `+=${window.innerHeight * 8}px`,
+    pin: '#batterySticky',
+    scrub: false,
+    onUpdate: (self) => {
+        const idx = Math.min(Math.floor(self.progress * stages.length), stages.length - 1);
+        applyStage(idx);
+    }
+});
+
+// Hero动画
+gsap.timeline({ delay: 0.3 })
+    .from('.hero-tag',   { opacity:0, y:30, duration:0.8, ease:'power3.out' })
+    .from('.hero-title', { opacity:0, y:40, duration:0.9, ease:'power3.out' }, '-=0.4')
+    .from('.hero-sub',   { opacity:0, y:20, duration:0.7, ease:'power3.out' }, '-=0.5')
+    .from('.scroll-hint',{ opacity:0, duration:0.6 }, '-=0.3');
+setTimeout(() => applyStage(0, true), 100);
+
+// ---------- 检测系统 ----------
+const detectStages = [
+    { img:1, leftPanel:'detectPanelA', rightPanel:'detectPanelB', titleText:'智能检测系统概述', titleSub:'INTELLIGENT DETECTION — OVERVIEW', danmaku:true },
+    { img:2, leftPanel:null, rightPanel:'detectPanelC', titleText:'多维分析结果输出', titleSub:'ANALYSIS RESULT — MULTI-DIMENSIONAL OUTPUT', danmaku:false },
+    { img:2, leftPanel:null, rightPanel:'detectPanelC', titleText:'多维分析结果输出', titleSub:'ANALYSIS RESULT — MULTI-DIMENSIONAL OUTPUT', danmaku:false }
+];
+const detectImgs = [document.getElementById('detectImg1'), document.getElementById('detectImg2')];
+const detectPanels = ['detectPanelA','detectPanelB','detectPanelC'];
+const detectTitleEl = document.getElementById('detectStageTitle');
+const detectTitleText = document.getElementById('detectTitleText');
+const detectTitleSub = document.getElementById('detectTitleSub');
+let currentDetectStage = -1;
+gsap.set(detectImgs, { opacity: 0 });
+gsap.set(detectPanels.map(id => '#' + id), { opacity: 0, x: 0 });
+gsap.set('#detectStageTitle', { opacity: 0, y: 20 });
+detectImgs[0].style.opacity = '1';
+
+// 弹幕逻辑
+const danmakuMessages = [
+    { text: '聆听电池每一次脉搏', colorClass:'dm-c1' },
+    { text: '基于弛豫行为的GITT数据比对', colorClass:'dm-c2' },
+    { text: '秒级预判损坏电芯', colorClass:'dm-c3' },
+    { text: '可搭载AI学习持续优化', colorClass:'dm-c4' },
+    { text: '本征安全 · 电网级储能', colorClass:'dm-c5' },
+    { text: '深度学习 + 时序分析', colorClass:'dm-c1' },
+    { text: 'SOH健康度热力图输出', colorClass:'dm-c2' },
+    { text: '多节电池同步监测', colorClass:'dm-c3' },
+    { text: '预警准确率 > 95%', colorClass:'dm-c4' },
+    { text: '实时捕捉电芯内部变化', colorClass:'dm-c5' },
+    { text: '凝胶电解质体系加持', colorClass:'dm-c1' },
+    { text: '助力新型电力系统建设', colorClass:'dm-c2' }
+];
+const trackEls = [];
+const NUM_TRACKS = 7;
+const TRACK_HEIGHT = 55;
+const danmakuTrackDiv = document.getElementById('danmakuTrack');
+for (let i = 0; i < NUM_TRACKS; i++) {
+    const track = document.createElement('div');
+    track.style.cssText = `position:absolute; top:${20 + i * TRACK_HEIGHT}px; left:0; width:100%; height:${TRACK_HEIGHT}px; overflow:hidden; pointer-events:none;`;
+    danmakuTrackDiv.appendChild(track);
+    trackEls.push(track);
+}
+let danmakuInterval = null, danmakuActive = false;
+function fireOneDanmaku(msg) {
+    const trackIdx = Math.floor(Math.random() * NUM_TRACKS);
+    const el = document.createElement('div');
+    el.className = `danmaku-item ${msg.colorClass}`;
+    el.textContent = msg.text;
+    el.style.fontSize = '16px';
+    el.style.top = (8 + Math.random() * (TRACK_HEIGHT - 20)) + 'px';
+    const textWidth = el.scrollWidth || 200;
+    const startX = window.innerWidth;
+    const endX = -(textWidth + 20);
+    const duration = 6 + Math.random() * 4;
+    trackEls[trackIdx].appendChild(el);
+    gsap.fromTo(el, { opacity:0, x:startX }, { opacity:[0,0.85,0.85,0], x:endX, duration, ease:'none', onComplete:()=>el.remove() });
+}
+function startDanmaku() { if (danmakuActive) return; danmakuActive=true; danmakuMessages.forEach((m,i)=>setTimeout(()=>fireOneDanmaku(m), i*150)); danmakuInterval = setInterval(()=>{ for(let k=0;k<2+Math.random()*2;k++) fireOneDanmaku(danmakuMessages[Math.floor(Math.random()*danmakuMessages.length)]); }, 1300); }
+function stopDanmaku() { danmakuActive=false; clearInterval(danmakuInterval); danmakuInterval=null; trackEls.forEach(t=>{ while(t.firstChild) t.removeChild(t.firstChild); }); }
+
+function applyDetectStage(stageIdx, instant=false) {
+    if (stageIdx === currentDetectStage) return;
+    currentDetectStage = stageIdx;
+    const s = detectStages[stageIdx];
+    const dur = instant ? 0 : 0.7;
+    document.querySelectorAll('.detect-dot').forEach((d,i)=>d.classList.toggle('active', i===stageIdx));
+    detectPanels.forEach(id => { const isLeft = id === 'detectPanelA'; gsap.to('#'+id, { opacity:0, x:isLeft?-20:20, duration:dur*0.5, ease:'power2.inOut' }); });
+    if (s.leftPanel) gsap.fromTo('#'+s.leftPanel, { opacity:0, x:-30 }, { opacity:1, x:0, duration:dur, delay:dur*0.3, ease:'power2.out' });
+    if (s.rightPanel) gsap.fromTo('#'+s.rightPanel, { opacity:0, x:30 }, { opacity:1, x:0, duration:dur, delay:dur*0.3, ease:'power2.out' });
+    gsap.to('#detectStageTitle', { opacity:0, y:10, duration:dur*0.4, ease:'power2.inOut', onComplete:()=>{ detectTitleText.textContent=s.titleText; detectTitleSub.textContent=s.titleSub; gsap.to('#detectStageTitle',{opacity:1,y:0,duration:dur*0.5}); } });
+    detectImgs.forEach((img,i)=> gsap.to(img, { opacity: (i+1===s.img) ? 1 : 0, duration:dur, ease:'power2.inOut' }));
+    s.danmaku ? startDanmaku() : stopDanmaku();
+}
+const detectDotsContainer = document.getElementById('detectDots');
+for (let i=0; i<detectStages.length; i++) { let dot=document.createElement('div'); dot.className='detect-dot'+(i===0?' active':''); dot.dataset.dstage=i; detectDotsContainer.appendChild(dot); }
+document.querySelectorAll('.detect-dot').forEach((dot,idx)=>{ dot.addEventListener('click',()=>{ if(detectTrigger){ const start=detectTrigger.start, end=detectTrigger.end, scrollPos=start+(idx/detectStages.length)*(end-start); window.scrollTo({top:scrollPos,behavior:'smooth'}); } }); });
+let detectTrigger = ScrollTrigger.create({
+    trigger: '#detectSection',
+    start: 'top top',
+    end: `+=${window.innerHeight * 3}px`,
+    pin: '#detectSticky',
+    scrub: false,
+    onUpdate: (self) => { const idx = Math.min(Math.floor(self.progress * detectStages.length), detectStages.length-1); applyDetectStage(idx); }
+});
+setTimeout(()=>applyDetectStage(0, true), 100);
+
+// 导航平滑
+document.querySelectorAll('nav a[href^="#"]').forEach(a=>{ a.addEventListener('click',e=>{ e.preventDefault(); const target=document.querySelector(a.getAttribute('href')); if(target) target.scrollIntoView({behavior:'smooth',block:'start'}); }); });
+window.addEventListener('resize', ()=>{ ScrollTrigger.refresh(); });
+</script>
+
+</body>
+</html>
